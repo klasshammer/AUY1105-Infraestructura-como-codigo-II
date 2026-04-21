@@ -27,14 +27,13 @@ module "ec2" {
   instance_name = "MiInstancia"
 }
 
-// Repetimos el codigo pero aseguramos que tenga otro nombre
-module "ec2_2" {
+// Repetimos el codigo pero aseguramos que tenga otro nombre de instancia y de la subnet
+module "ec2_subnet2" {
   source        = "./ec2_module"
   key_name      = "mi_key_name"
-  public_key    = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDiuFUssdtHg8Y3rWGZFCSD58hSr4IqjFVKeid9d0G3bk7w99/AOyL/C45PnFodjOtD1eMndiCd40BqagdOYtKoieqlOTlmShrvE7N2A+MeaOP4CWLx7fj2MfekecPPFRAiMUCZk51SHxFr4oqX4Qhj8BkG1cG30p9QB+stfJKT3tUGczxUB1aor9qoLmPDTfaE4iSmNDscVmqQhX9jkppdzkg2ENh5cDO2EtLlHHxIodXLgetpWjBP68r90q/gwZV69XANcTWjZiZRyDmb9nIfQiZOO5C03FoG0GmTSZkAfvZdq7M2GsQSboln44VW/ukyQKFRVVepOCIHTaqcsjhV"
+  public_key    = "ssh-rsa AAAAB3NzaC1yc2E..."
   ami           = "ami-012967cc5a8c9f891"
-  //subnet_id     = module.vpc.subnet_publica_1_id
-  subnet_id     = module.vpc.subnet_publica_2_id
+  subnet_id     = module.vpc.subnet_publica_2_id   # us-east-1b ← único cambio real
   vpc_id        = module.vpc.vpc_id
-  instance_name = "MiInstancia"
+  instance_name = "MiInstancia2"
 }
