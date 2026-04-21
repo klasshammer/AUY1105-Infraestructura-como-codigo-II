@@ -3,8 +3,10 @@ resource "aws_key_pair" "mi_key" {
   public_key = var.public_key
 }
 
-resource "aws_security_group" "ssh_access" {
-  name        = var.security_group_name
+// Modifico el SG original y lo dejo solo para la instancia publica
+resource "aws_security_group" "ssh_access_public" {
+  // cambio el name para parametrizar el nombre 
+  name        = "${var.security_group_name}-public"
   description = "Permitir acceso SSH desde cualquier IPv4"
   vpc_id      = var.vpc_id
 
@@ -31,6 +33,39 @@ resource "aws_security_group" "ssh_access" {
     Name = var.security_group_name
   }
 }
+
+// Creo un 2do SG pero limitando el acceso desde la instancia publica a la privada
+
+resource "aws_security_group" "ssh_access_private" {
+  //tambien cambio aca
+  name        = "${var.security_group_name}-private"
+  description = "Permitir acceso SSH desde cualquier IPv4"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "SSH desde cualquier lugar"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    // aqui dejo el rango de IP de la instancia publica
+    cidr_blocks = ["10.1.1.0/24"]  
+  }
+
+  egress {
+    description = "Permitir trafico de salida a cualquier lugar"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = var.security_group_name
+  }
+}
+
+
+
 
 resource "aws_instance" "mi_ec2" {
   ami                    = var.ami
