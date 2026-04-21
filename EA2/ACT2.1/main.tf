@@ -49,7 +49,7 @@ module "ec2_privada" {
   instance_name = "MiInstanciaPrivada"
 }
 
-module "ec2_privada" {
+module "ec2_privada_2" {
   source        = "./ec2_module"
   key_name      = "mi_key_name"
   public_key    = "ssh-rsa AAAAB3NzaC1yc2E..."
