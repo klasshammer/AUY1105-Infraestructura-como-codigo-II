@@ -37,3 +37,14 @@ module "ec2_subnet2" {
   vpc_id        = module.vpc.vpc_id
   instance_name = "MiInstancia2"
 }
+
+#  Nueva instancia - subred privada 1 (us-east-1a)
+module "ec2_privada" {
+  source        = "./ec2_module"
+  key_name      = "mi_key_name"
+  public_key    = "ssh-rsa AAAAB3NzaC1yc2E..."
+  ami           = "ami-012967cc5a8c9f891"
+  subnet_id     = module.vpc.subnet_privada_1_id   # ← subred privada
+  vpc_id        = module.vpc.vpc_id
+  instance_name = "MiInstanciaPrivada"
+}
