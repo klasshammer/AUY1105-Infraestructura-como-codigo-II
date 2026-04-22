@@ -40,3 +40,10 @@ variable "instance_name" {
   type        = string
   default     = "MiInstancia"
 }
+  //para la parte de las reglas de seguridad cambio la variable del SG para decidir sobre 2
+
+variable "is_private" {
+  description = "Si es true, usa el SG privado"
+  type        = bool
+  default     = false
+}

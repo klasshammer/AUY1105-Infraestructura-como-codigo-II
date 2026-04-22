@@ -10,5 +10,5 @@ output "public_ip" {
 
 output "security_group_id" {
   description = "ID del grupo de seguridad"
-  value       = aws_security_group.ssh_access.id
+  value       = var.is_private ? aws_security_group.ssh_access_private.id : aws_security_group.ssh_access_public.id
 }

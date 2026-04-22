@@ -6,7 +6,7 @@ resource "aws_key_pair" "mi_key" {
 // Modifico el SG original y lo dejo solo para la instancia publica
 resource "aws_security_group" "ssh_access_public" {
   // cambio el name para parametrizar el nombre 
-  name        = "${var.security_group_name}-public"
+  name        = "${var.security_group_name}_public"
   description = "Permitir acceso SSH desde cualquier IPv4"
   vpc_id      = var.vpc_id
 
@@ -38,7 +38,7 @@ resource "aws_security_group" "ssh_access_public" {
 
 resource "aws_security_group" "ssh_access_private" {
   //tambien cambio aca
-  name        = "${var.security_group_name}-private"
+  name        = "${var.security_group_name}_private"
   description = "Permitir acceso SSH desde cualquier IPv4"
   vpc_id      = var.vpc_id
 
@@ -72,8 +72,12 @@ resource "aws_instance" "mi_ec2" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.mi_key.key_name
   subnet_id              = var.subnet_id
-  vpc_security_group_ids = [aws_security_group.ssh_access.id]
-
+  //para la parte de las reglas de seguridad cambio la variable del SG para decidir sobre 2
+  //vpc_security_group_ids = [aws_security_group.ssh_access.id]
+  vpc_security_group_ids = [
+  var.is_private ? aws_security_group.ssh_access_private.id 
+                 : aws_security_group.ssh_access_public.id
+]
   tags = {
     Name = var.instance_name
   }
