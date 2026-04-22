@@ -67,11 +67,12 @@ module "ec2_privada" {
 
 // Agregar el S3
 module "mi_bucket_s3" {
-  source        = "./modules/s3_module"
+  source        = "./s3_module"
   bucket_prefix = "cmaur"
   bucket_suffix = "ea21"
 }
-
+/*
 output "bucket_name" {
   value = module.mi_bucket_s3.bucket_name
 }
+*/

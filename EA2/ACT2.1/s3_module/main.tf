@@ -12,7 +12,7 @@ resource "aws_s3_bucket" "ejemplo_bucket01" {
 
 # Habilitar versionado
 resource "aws_s3_bucket_versioning" "versioning" {
-  bucket = aws_s3_bucket.this.id
+  bucket = aws_s3_bucket.ejemplo_bucket01.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -39,7 +39,7 @@ resource "aws_s3_bucket_policy" "public_read" {
         Effect    = "Allow"
         Principal = "*"
         Action    = "s3:GetObject"
-        Resource  = "${aws_s3_bucket.this.arn}/*"
+        Resource  = "${aws_s3_bucket.ejemplo_bucket01.arn}/*"
       },
     ]
   })
