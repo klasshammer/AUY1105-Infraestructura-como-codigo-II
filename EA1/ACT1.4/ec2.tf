@@ -13,7 +13,8 @@ resource "aws_security_group" "ssh_access" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Permitir desde cualquier dirección IPv4
+    //cidr_blocks = ["0.0.0.0/0"] # Permitir desde cualquier dirección IPv4
+    cidr_blocks = [var.sg_cidr_blocks] # Permitir desde cualquier dirección IPv4
   }
 
   egress {
@@ -31,7 +32,7 @@ resource "aws_security_group" "ssh_access" {
 
 resource "aws_instance" "mi_ec2" {
   ami                         = "ami-012967cc5a8c9f891"
-  instance_type               = "t2.micro"
+  instance_type               = var.instance_type
   key_name                    = aws_key_pair.mi_key.key_name
   subnet_id                   = aws_subnet.subnet_publica_1.id
   vpc_security_group_ids      = [aws_security_group.ssh_access.id]
