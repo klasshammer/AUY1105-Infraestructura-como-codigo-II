@@ -8,6 +8,7 @@ output "public_ip" {
   value       = aws_instance.mi_ec2.public_ip
 }
 
+//variable agregada para el tema de los SG
 output "security_group_id" {
   description = "ID del grupo de seguridad"
   value       = var.is_private ? aws_security_group.ssh_access_private.id : aws_security_group.ssh_access_public.id
